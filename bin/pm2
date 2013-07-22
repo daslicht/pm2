@@ -11,7 +11,7 @@ var pkg       = require('../package.json');
 var util      = require('util');
 var watch     = require('watch');
 var cronJob   = require('cron').CronJob;
-
+var pm2refresh = require('pm2-dev-refresh');
 
 const PREFIX_MSG        = '\x1B[32m⌬ PM2 \x1B[39m';
 const PREFIX_MSG_ERR    = '\x1B[31m⌬ PM2 [ERROR] \x1B[39m';
@@ -383,6 +383,7 @@ CLI.developmentMode = function(script) {
       'ignoreDotFiles' : true
     }, function(f, curr, prev) {
          console.log(PREFIX_MSG + 'File changed. Reloading.'); 
+         pm2refresh.refreshBrowser();
          Satan.executeRemote('list', {}, function(err, list) {
            if (err) {
              console.error('Error retrieving process list: ' + err);
